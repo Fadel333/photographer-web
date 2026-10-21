@@ -161,12 +161,12 @@ export default function Home() {
             </div>
           </div>
 
-          {/* RIGHT: IMAGE (The Photographer) */}
+          {/* RIGHT: IMAGE (The Woman) */}
           <div className="order-1 lg:order-2 relative w-full h-[45vh] sm:h-[55vh] md:h-[60vh] lg:h-[80vh] rounded-lg overflow-hidden shadow-2xl">
             <div ref={imgRef} className="absolute inset-0 scale-110">
               <Image
-                src="/klik-haus.jpg"
-                alt="Klik Haus"
+                src="/hero.jpg"
+                alt="Matriculation portrait"
                 fill
                 priority
                 className="object-cover object-top"
@@ -248,8 +248,8 @@ export default function Home() {
         <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-10 items-center">
           <div className="relative aspect-[4/5] overflow-hidden rounded bg-neutral-100">
             <Image
-              src="/gallery/2.jpg" 
-              alt="Behind the scenes"
+              src="/klik-haus.jpg"
+              alt="Klik Haus"
               fill
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 50vw"
