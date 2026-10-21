@@ -9,8 +9,20 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     cache: "no-store",
   });
   if (!res.ok) {
-    let detail = res.statusText;
-    try { detail = (await res.json()).detail ?? detail; } catch {}
+    let detail: string = res.statusText;
+    try {
+      const data = await res.json();
+      if (Array.isArray(data.detail)) {
+        detail = data.detail
+          .map((e: { loc?: string[]; msg?: string }) => {
+            const field = e.loc?.filter((l) => l !== "body").join(".") ?? "field";
+            return `${field}: ${e.msg ?? "invalid"}`;
+          })
+          .join("; ");
+      } else if (typeof data.detail === "string") {
+        detail = data.detail;
+      }
+    } catch {}
     throw new Error(`${res.status}: ${detail}`);
   }
   return res.json() as Promise<T>;
@@ -23,6 +35,5 @@ export const api = {
       method: "POST",
       body: JSON.stringify(data),
     }),
-
-    listBlockedDates: () => request<{ id: number; start_date: string; end_date: string; reason: string }[]>("/blocked-dates"),
+  listBlockedDates: () => request<{ id: number; start_date: string; end_date: string; reason: string }[]>("/blocked-dates"),
 };

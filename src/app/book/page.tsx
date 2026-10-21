@@ -35,22 +35,53 @@ export default function BookPage() {
       setStatus("error");
       return;
     }
+
     setStatus("sending");
     setError("");
     const fd = new FormData(e.currentTarget);
+
+    const name = String(fd.get("name") ?? "").trim();
+    const email = String(fd.get("email") ?? "").trim();
+    const phone = String(fd.get("phone") ?? "").trim();
+    const eventType = String(fd.get("event_type") ?? "wedding") as EventType;
+    const eventDateValue = String(fd.get("event_date") ?? "").trim();
+    const location = String(fd.get("location") ?? "").trim();
+    const notes = String(fd.get("notes") ?? "").trim();
+    const termsAccepted = fd.get("terms") === "on";
+
+    if (!name) {
+      setError("Please enter your name.");
+      setStatus("error");
+      return;
+    }
+    if (!email || !email.includes("@")) {
+      setError("Please enter a valid email address.");
+      setStatus("error");
+      return;
+    }
+    if (!eventDateValue) {
+      setError("Please choose an event date.");
+      setStatus("error");
+      return;
+    }
+    if (!termsAccepted) {
+      setError("Please accept the terms.");
+      setStatus("error");
+      return;
+    }
+
     try {
       const booking = await api.createInquiry({
-        customer_name: String(fd.get("name")),
-        customer_email: String(fd.get("email")),
-        customer_phone: String(fd.get("phone") ?? ""),
-        event_type: String(fd.get("event_type")) as EventType,
-        event_date: String(fd.get("event_date")),
-        location: String(fd.get("location") ?? ""),
+        customer_name: name,
+        customer_email: email,
+        customer_phone: phone,
+        event_type: eventType,
+        event_date: eventDateValue,
+        location,
         package_id: selectedPkg ?? undefined,
-        notes: String(fd.get("notes") ?? ""),
-        terms_accepted: fd.get("terms") === "on",
+        notes,
+        terms_accepted: termsAccepted,
       });
-      // Redirect to the success/payment page!
       window.location.href = `/book/success?booking_id=${booking.id}`;
     } catch (err) {
       setStatus("error");
