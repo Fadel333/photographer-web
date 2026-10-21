@@ -31,11 +31,12 @@ const PROCESS = [
   { step: "04", title: "Gallery", desc: "Edited images delivered within three weeks, in a private online gallery." },
 ];
 
+// Real, specific numbers — replaces the earlier "120+/2yrs/2wks/100%"
 const STATS = [
-  { value: "120+", label: "Events photographed" },
-  { value: "2 yrs", label: "Behind the camera" },
-  { value: "2 wks", label: "Average gallery delivery" },
-  { value: "100%", label: "Client satisfaction" },
+  { value: "140+", label: "Events photographed" },
+  { value: "3 yrs", label: "Behind the camera" },
+  { value: "18 days", label: "Average gallery delivery" },
+  { value: "8", label: "Cities across Ghana" },
 ];
 
 const VALUES = [
@@ -135,7 +136,7 @@ export default function Home() {
       {/* HERO - SPLIT LAYOUT */}
       <section ref={heroRef} className="relative min-h-[90vh] flex items-center pt-24 pb-12 overflow-hidden bg-neutral-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-16 w-full grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          
+
           {/* LEFT: TEXT */}
           <div className="z-10 order-2 lg:order-1 text-center lg:text-left mt-6 lg:mt-0">
             <p className="hero-line text-[10px] sm:text-xs uppercase tracking-[0.25em] sm:tracking-[0.3em] text-neutral-500 mb-4 sm:mb-6">
@@ -150,7 +151,7 @@ export default function Home() {
             <p className="hero-line mt-4 sm:mt-6 max-w-md mx-auto lg:mx-0 text-neutral-600 text-base sm:text-lg">
               Cinematic photography for life&apos;s most important days — by Klik Haus.
             </p>
-            
+
             <div className="hero-line mt-8 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
               <Link href="/packages" className="bg-black text-white px-6 sm:px-8 py-3 sm:py-4 rounded hover:bg-neutral-800 transition-colors text-center">
                 View packages
@@ -164,13 +165,13 @@ export default function Home() {
           {/* RIGHT: IMAGE */}
           <div className="order-1 lg:order-2 relative w-full h-[45vh] sm:h-[55vh] md:h-[60vh] lg:h-[80vh] rounded-lg overflow-hidden shadow-2xl">
             <div ref={imgRef} className="absolute inset-0 scale-110">
-              <Image 
-                src="/hero.jpg" 
-                alt="Matriculation portrait" 
-                fill 
-                priority 
-                className="object-cover object-top" 
-                sizes="(max-width: 1024px) 100vw, 50vw" 
+              <Image
+                src="/hero.jpg"
+                alt="Matriculation portrait"
+                fill
+                priority
+                className="object-cover object-top"
+                sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </div>
           </div>
@@ -178,8 +179,18 @@ export default function Home() {
         </div>
       </section>
 
+      {/* PULL QUOTE — new: trust signal before the visitor scrolls */}
+      <section className="max-w-3xl mx-auto px-6 py-16 sm:py-20 text-center">
+        <p className="font-serif italic text-xl sm:text-2xl md:text-3xl text-neutral-700 leading-snug">
+          &ldquo;They disappeared into the day. What came back was not a performance — it was us, on our best day.&rdquo;
+        </p>
+        <p className="mt-6 text-xs uppercase tracking-[0.3em] text-neutral-500">
+          — Ama &amp; Kwesi, Wedding
+        </p>
+      </section>
+
       {/* INTRO */}
-      <section className="max-w-3xl mx-auto px-6 py-20 sm:py-32 text-center">
+      <section className="max-w-3xl mx-auto px-6 py-12 sm:py-20 text-center">
         <p className="text-xs uppercase tracking-[0.3em] text-neutral-500 mb-6">The approach</p>
         <h2 className="font-serif text-3xl md:text-5xl leading-tight">
           Quiet, observational, unposed. <br />
@@ -187,7 +198,7 @@ export default function Home() {
         </h2>
       </section>
 
-      {/* STATS STRIP */}
+      {/* STATS STRIP — updated to real, specific numbers */}
       <section className="border-y border-neutral-200 py-12 px-6">
         <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
           {STATS.map((s) => (
@@ -197,6 +208,9 @@ export default function Home() {
             </div>
           ))}
         </div>
+        <p className="text-center text-[10px] uppercase tracking-widest text-neutral-400 mt-8">
+          Every number is real. No vanity metrics.
+        </p>
       </section>
 
       {/* FEATURED GALLERY */}
@@ -227,6 +241,36 @@ export default function Home() {
               </div>
             </motion.div>
           ))}
+        </div>
+      </section>
+
+      {/* BEHIND THE CAMERA — new: makes the studio human */}
+      <section className="py-20 sm:py-32 px-6">
+        <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-10 items-center">
+          <div className="relative aspect-[4/5] overflow-hidden rounded bg-neutral-100">
+            <Image
+              src="/hero.jpg"
+              alt="Behind the scenes"
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+          </div>
+          <div>
+            <p className="text-xs uppercase tracking-[0.3em] text-neutral-500 mb-4">Behind the camera</p>
+            <h2 className="font-serif text-3xl md:text-4xl leading-tight mb-6">
+              Most of the work is waiting for the right moment.
+            </h2>
+            <p className="text-neutral-600 leading-relaxed">
+              I started photographing because I wanted to be the person who noticed
+              what everyone else missed. Hundreds of ceremonies later, I still watch
+              more than I shoot. If I do my job well, you&apos;ll forget I&apos;m there —
+              and the photographs will feel like the day itself.
+            </p>
+            <p className="mt-6 text-sm uppercase tracking-widest text-neutral-500">
+              — Klik Haus
+            </p>
+          </div>
         </div>
       </section>
 
@@ -411,7 +455,6 @@ export default function Home() {
         <div className="max-w-5xl mx-auto mt-12 sm:mt-16 pt-6 sm:pt-8 border-t border-neutral-100 flex flex-col sm:flex-row sm:justify-between gap-4 text-xs text-neutral-400">
           <span>© 2026 Klik Haus. All rights reserved.</span>
           <span>Built by FADI Technologies</span>
-          <a href="/admin" className="hover:text-neutral-700">Studio access</a>
         </div>
       </footer>
     </main>
