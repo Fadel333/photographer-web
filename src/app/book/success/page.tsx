@@ -72,6 +72,7 @@ export default function BookSuccessPage() {
   }
 
   const depositGHS = (booking.deposit_cents / 100).toLocaleString();
+  const noDepositRequired = booking.deposit_cents === 0;
   const alreadyPaid = booking.status === "deposit_paid" || booking.status === "completed";
 
   return (
@@ -91,6 +92,24 @@ export default function BookSuccessPage() {
             </p>
             <p className="text-sm mt-3">
               Deposit paid: <span className="font-medium">GH₵{depositGHS}</span>
+            </p>
+          </div>
+          <Link href="/gallery" className="inline-block mt-10 underline text-sm">
+            Browse our work while you wait →
+          </Link>
+        </div>
+      ) : noDepositRequired ? (
+        <div className="text-center">
+          <p className="text-xs uppercase tracking-[0.3em] text-neutral-500 mb-4">Inquiry received</p>
+          <h1 className="font-serif text-4xl md:text-5xl mb-4">You&apos;re booked. ✨</h1>
+          <p className="text-neutral-600 mb-8 max-w-sm mx-auto">
+            No deposit is required for this package. We&apos;ll be in touch within 24 hours to confirm the details and next steps.
+          </p>
+          <div className="border rounded-lg p-6 text-left bg-neutral-50 max-w-sm mx-auto">
+            <p className="text-xs uppercase tracking-widest text-neutral-500 mb-3">Your booking</p>
+            <p className="font-serif text-xl">{booking.customer_name}</p>
+            <p className="text-sm text-neutral-600 capitalize">
+              {booking.event_type} · {booking.event_date}
             </p>
           </div>
           <Link href="/gallery" className="inline-block mt-10 underline text-sm">
