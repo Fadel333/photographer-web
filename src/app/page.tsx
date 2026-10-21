@@ -31,7 +31,6 @@ const PROCESS = [
   { step: "04", title: "Gallery", desc: "Edited images delivered within three weeks, in a private online gallery." },
 ];
 
-// Real, specific numbers — replaces the earlier "120+/2yrs/2wks/100%"
 const STATS = [
   { value: "140+", label: "Events photographed" },
   { value: "3 yrs", label: "Behind the camera" },
@@ -162,12 +161,12 @@ export default function Home() {
             </div>
           </div>
 
-          {/* RIGHT: IMAGE */}
+          {/* RIGHT: IMAGE (The Photographer) */}
           <div className="order-1 lg:order-2 relative w-full h-[45vh] sm:h-[55vh] md:h-[60vh] lg:h-[80vh] rounded-lg overflow-hidden shadow-2xl">
             <div ref={imgRef} className="absolute inset-0 scale-110">
               <Image
-                src="/hero.jpg"
-                alt="Matriculation portrait"
+                src="/klik-haus.jpg"
+                alt="Klik Haus"
                 fill
                 priority
                 className="object-cover object-top"
@@ -179,7 +178,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PULL QUOTE — new: trust signal before the visitor scrolls */}
+      {/* PULL QUOTE */}
       <section className="max-w-3xl mx-auto px-6 py-16 sm:py-20 text-center">
         <p className="font-serif italic text-xl sm:text-2xl md:text-3xl text-neutral-700 leading-snug">
           &ldquo;They disappeared into the day. What came back was not a performance — it was us, on our best day.&rdquo;
@@ -198,7 +197,7 @@ export default function Home() {
         </h2>
       </section>
 
-      {/* STATS STRIP — updated to real, specific numbers */}
+      {/* STATS STRIP */}
       <section className="border-y border-neutral-200 py-12 px-6">
         <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
           {STATS.map((s) => (
@@ -244,12 +243,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* BEHIND THE CAMERA — new: makes the studio human */}
+      {/* BEHIND THE CAMERA */}
       <section className="py-20 sm:py-32 px-6">
         <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-10 items-center">
           <div className="relative aspect-[4/5] overflow-hidden rounded bg-neutral-100">
             <Image
-              src="/hero.jpg"
+              src="/gallery/2.jpg" 
               alt="Behind the scenes"
               fill
               className="object-cover"
@@ -262,7 +261,7 @@ export default function Home() {
               Most of the work is waiting for the right moment.
             </h2>
             <p className="text-neutral-600 leading-relaxed">
-              I started photographing because I wanted to be the person who noticed
+              I started Klik Haus because I wanted to be the person who noticed
               what everyone else missed. Hundreds of ceremonies later, I still watch
               more than I shoot. If I do my job well, you&apos;ll forget I&apos;m there —
               and the photographs will feel like the day itself.
