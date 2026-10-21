@@ -116,7 +116,6 @@ export default function AdminPage() {
         </div>
       </div>
 
-      {/* STATS STRIP */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-8 sm:mb-12">
         <Stat label="Total inquiries" value={bookings.length} />
         <Stat label="Pending" value={bookings.filter((b) => b.status === "inquiry").length} />
@@ -131,7 +130,6 @@ export default function AdminPage() {
         />
       </div>
 
-      {/* BOOKINGS LIST */}
       {bookings.length === 0 && <p className="text-neutral-500">No inquiries yet.</p>}
 
       <div className="space-y-4">
@@ -144,12 +142,21 @@ export default function AdminPage() {
               <h2 className="font-serif text-lg sm:text-xl mt-1">{b.customer_name}</h2>
               <p className="text-sm text-neutral-600 break-all">{b.customer_email}</p>
               <p className="text-sm mt-2">
-                GH₵{(b.total_cents / 100).toLocaleString()} · deposit GH₵{(b.deposit_cents / 100).toLocaleString()}
+                {b.total_cents > 0
+                  ? `GH₵${(b.total_cents / 100).toLocaleString()} · deposit GH₵${(b.deposit_cents / 100).toLocaleString()}`
+                  : "Price not set — send a quote"}
               </p>
             </div>
             <div className="flex flex-col items-start sm:items-end gap-2 w-full sm:w-auto mt-2 sm:mt-0">
               <span className="text-xs px-2 py-1 rounded bg-neutral-100">{b.status}</span>
-              {b.status === "inquiry" && (
+              {b.status === "inquiry" && b.total_cents === 0 && (
+                <QuoteForm
+                  bookingId={b.id}
+                  token={token}
+                  onSaved={() => load(token)}
+                />
+              )}
+              {b.status === "inquiry" && b.total_cents > 0 && (
                 <button onClick={() => setStatus(b.id, "confirmed")}
                   className="bg-black text-white px-4 py-2 rounded text-sm w-full sm:w-auto">
                   Confirm
@@ -166,9 +173,64 @@ export default function AdminPage() {
         ))}
       </div>
 
-      {/* BLOCKED DATES */}
       <BlockedDates token={token} />
     </main>
+  );
+}
+
+function QuoteForm({ bookingId, token, onSaved }: { bookingId: number; token: string; onSaved: () => void }) {
+  const [open, setOpen] = useState(false);
+  const [err, setErr] = useState("");
+  const [saving, setSaving] = useState(false);
+
+  async function submit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setErr("");
+    setSaving(true);
+    const fd = new FormData(e.currentTarget);
+    try {
+      const res = await fetch(`${API}/bookings/${bookingId}/quote`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({
+          total_cents: Math.round(Number(fd.get("total")) * 100),
+          deposit_pct: Number(fd.get("deposit_pct")),
+        }),
+      });
+      if (!res.ok) {
+        const j = await res.json().catch(() => ({}));
+        setErr(j.detail || `${res.status}`);
+        setSaving(false);
+        return;
+      }
+      setOpen(false);
+      onSaved();
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : "Failed");
+      setSaving(false);
+    }
+  }
+
+  if (!open) {
+    return (
+      <button onClick={() => setOpen(true)} className="bg-black text-white px-4 py-2 rounded text-sm w-full sm:w-auto">
+        Set quote
+      </button>
+    );
+  }
+
+  return (
+    <form onSubmit={submit} className="border rounded-lg p-4 w-full max-w-xs space-y-2">
+      <input name="total" type="number" step="0.01" required placeholder="Total (GH₵)" className="w-full border p-2 rounded text-sm" />
+      <input name="deposit_pct" type="number" min={1} max={100} defaultValue={30} required placeholder="Deposit %" className="w-full border p-2 rounded text-sm" />
+      <div className="flex gap-2">
+        <button disabled={saving} className="flex-1 bg-black text-white py-2 rounded text-sm disabled:opacity-50">
+          {saving ? "Saving…" : "Save quote"}
+        </button>
+        <button type="button" onClick={() => setOpen(false)} className="border px-3 py-2 rounded text-sm">Cancel</button>
+      </div>
+      {err && <p className="text-red-600 text-xs">{err}</p>}
+    </form>
   );
 }
 
@@ -214,7 +276,7 @@ function BlockedDates({ token }: { token: string }) {
       <p className="text-sm text-neutral-500 mb-6 max-w-lg">
         Mark days you are unavailable (e.g. out of town or editing). The booking form will automatically reject inquiries on these dates.
       </p>
-      
+
       <form onSubmit={add} className="flex flex-col md:flex-row flex-wrap gap-4 mb-8 bg-neutral-50 p-4 sm:p-6 rounded-lg border border-neutral-200">
         <div className="flex-1 min-w-[150px]">
           <label className="block text-xs uppercase tracking-widest text-neutral-500 mb-2">Start date</label>
@@ -232,9 +294,9 @@ function BlockedDates({ token }: { token: string }) {
           <button className="bg-black text-white px-6 py-3 rounded hover:bg-neutral-800 transition-colors w-full md:w-auto">Block Date</button>
         </div>
       </form>
-      
+
       {err && <p className="text-red-600 text-sm mb-4">Error: {err}</p>}
-      
+
       <ul className="space-y-3">
         {items.map((b) => (
           <li key={b.id} className="flex flex-col sm:flex-row sm:justify-between sm:items-center border p-4 rounded bg-white gap-3">
