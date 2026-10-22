@@ -424,7 +424,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FOOTER */}
+      {/* FOOTER */} 
       <footer className="border-t border-neutral-200 py-12 sm:py-16 px-6">
         <div className="max-w-5xl mx-auto grid gap-10 md:grid-cols-3">
           <div>
