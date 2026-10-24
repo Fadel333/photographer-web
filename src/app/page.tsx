@@ -441,6 +441,7 @@ export default function Home() {
               <li><Link href="/gallery" className="hover:underline">Gallery</Link></li>
               <li><Link href="/packages" className="hover:underline">Packages</Link></li>
               <li><Link href="/book" className="hover:underline">Book a session</Link></li>
+              <li><Link href="/contact" className="hover:underline">Contact</Link></li>
             </ul>
           </div>
           <div>

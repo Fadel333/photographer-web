@@ -9,6 +9,7 @@ export default function Nav() {
           <Link href="/gallery" className="hover:opacity-60">Gallery</Link>
           <Link href="/packages" className="hover:opacity-60">Packages</Link>
           <Link href="/book" className="hover:opacity-60">Book</Link>
+          <Link href="/contact" className="hover:opacity-60">Contact</Link>
          
         </div>
       </div>
